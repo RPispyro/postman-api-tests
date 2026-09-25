@@ -1,0 +1,60 @@
+name: Postman API tests
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  api-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Pobierz repozytorium
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Przygotuj Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+          cache: npm
+
+      - name: Zainstaluj zaleznosci
+        run: npm ci
+
+      - name: Uruchom testy przez Newmana
+        env:
+          BASE_URL: ${{ vars.API_BASE_URL }}
+          API_TOKEN: ${{ secrets.API_TOKEN }}
+        run: |
+          if [ -z "$BASE_URL" ]; then
+            echo "::error::Ustaw zmienna API_BASE_URL w ustawieniach repozytorium."
+            exit 1
+          fi
+
+          mkdir -p reports
+
+          npx newman run postman/collection.json \
+            --environment postman/environment.json \
+            --env-var "baseUrl=$BASE_URL" \
+            --env-var "token=$API_TOKEN" \
+            --reporters cli,junit \
+            --reporter-cli-no-console \
+            --reporter-junit-export reports/newman.xml \
+            --timeout-request 30000
+
+      - name: Zachowaj raport z testow
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: newman-report
+          path: reports/newman.xml
+          if-no-files-found: warn
+          retention-days: 7

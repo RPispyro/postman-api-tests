@@ -1,0 +1,1387 @@
+{
+  "info": {
+    "_postman_id": "983036ad-c0ee-4cea-a628-0766b4b1d601",
+    "name": "GOREST.CO.IN",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "58514161",
+    "_collection_link": "https://go.postman.co/collection/58514161-983036ad-c0ee-4cea-a628-0766b4b1d601?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "/public/v2/users",
+      "item": [
+        {
+          "name": "positive flow",
+          "item": [
+            {
+              "name": "create and delete user",
+              "item": [
+                {
+                  "name": "create user with valid data",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [
+                          "var jsonData = pm.response.json();",
+                          "",
+                          "pm.environment.set(\"userID\", jsonData.id);",
+                          "",
+                          "pm.test(\"Status code is 201\", function () {",
+                          "    pm.response.to.have.status(201);",
+                          "});",
+                          "",
+                          "pm.test(\"User name check\", function () {",
+                          "    pm.expect(jsonData.name).to.eql(\"rhoTest1234\");",
+                          "});",
+                          "",
+                          "pm.test(\"User email check\", function () {",
+                          "    pm.expect(jsonData.email).to.eql(\"rhoTest1234NEW123@test.pl\");",
+                          "});",
+                          "",
+                          "pm.test(\"User gender check\", function () {",
+                          "    pm.expect(jsonData.gender).to.eql(\"male\");",
+                          "});",
+                          "",
+                          "pm.test(\"User status check\", function () {",
+                          "    pm.expect(jsonData.status).to.eql(\"active\");",
+                          "});"
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    },
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [
+                          ""
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"name\": \"rhoTest1234\",\n    \"email\": \"rhoTest1234NEW123@test.pl\",\n    \"gender\": \"male\",\n    \"status\": \"active\"\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "https://{{baseURL}}/public/v2/users",
+                      "protocol": "https",
+                      "host": [
+                        "{{baseURL}}"
+                      ],
+                      "path": [
+                        "public",
+                        "v2",
+                        "users"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "create user with email already registered",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [
+                          "var jsonData = pm.response.json();",
+                          "",
+                          "pm.test(\"Status code is 422\", function () {",
+                          "    pm.response.to.have.status(422);",
+                          "});"
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"name\": \"rhoTest1234\",\n    \"email\": \"rhoTest1234NEW123@test.pl\",\n    \"gender\": \"male\",\n    \"status\": \"active\"\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "https://{{baseURL}}/public/v2/users",
+                      "protocol": "https",
+                      "host": [
+                        "{{baseURL}}"
+                      ],
+                      "path": [
+                        "public",
+                        "v2",
+                        "users"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "delete user",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [
+                          "pm.test(\"Status code is 204\", function () {",
+                          "    pm.response.to.have.status(204);",
+                          "});"
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "DELETE",
+                    "header": [],
+                    "url": {
+                      "raw": "https://{{baseURL}}/public/v2/users/{{userID}}",
+                      "protocol": "https",
+                      "host": [
+                        "{{baseURL}}"
+                      ],
+                      "path": [
+                        "public",
+                        "v2",
+                        "users",
+                        "{{userID}}"
+                      ]
+                    }
+                  },
+                  "response": []
+                }
+              ]
+            },
+            {
+              "name": "create update get delete user",
+              "item": [
+                {
+                  "name": "full path - create user with valid data",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [
+                          "var jsonData = pm.response.json();",
+                          "",
+                          "pm.environment.set(\"userID\", jsonData.id);",
+                          "",
+                          "pm.test(\"Status code is 201\", function () {",
+                          "    pm.response.to.have.status(201);",
+                          "});",
+                          "",
+                          "pm.test(\"User name check\", function () {",
+                          "    pm.expect(jsonData.name).to.eql(pm.environment.get(\"name\"));",
+                          "});",
+                          "",
+                          "pm.test(\"User email check\", function () {",
+                          "    pm.expect(jsonData.email).to.eql(pm.environment.get(\"email\"));",
+                          "});",
+                          "",
+                          "pm.test(\"User gender check\", function () {",
+                          "    pm.expect(jsonData.gender).to.eql(pm.environment.get(\"gender\"));",
+                          "});",
+                          "",
+                          "pm.test(\"User status check\", function () {",
+                          "    pm.expect(jsonData.status).to.eql(pm.environment.get(\"status\"));",
+                          "});"
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"name\": \"{{name}}\",\n    \"email\": \"{{email}}\",\n    \"gender\": \"{{gender}}\",\n    \"status\": \"{{status}}\"\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "https://{{baseURL}}/public/v2/users",
+                      "protocol": "https",
+                      "host": [
+                        "{{baseURL}}"
+                      ],
+                      "path": [
+                        "public",
+                        "v2",
+                        "users"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "full path - get user by userID",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [
+                          "var jsonData = pm.response.json();",
+                          "",
+                          "pm.test(\"Status code is 200\", function () {",
+                          "    pm.response.to.have.status(200);",
+                          "});",
+                          "",
+                          "pm.test(\"User name check\", function () {",
+                          "    pm.expect(jsonData.name).to.eql(pm.environment.get(\"name\"));",
+                          "});",
+                          "",
+                          "pm.test(\"User email check\", function () {",
+                          "    pm.expect(jsonData.email).to.eql(pm.environment.get(\"email\"));",
+                          "});",
+                          "",
+                          "pm.test(\"User gender check\", function () {",
+                          "    pm.expect(jsonData.gender).to.eql(pm.environment.get(\"gender\"));",
+                          "});",
+                          "",
+                          "pm.test(\"User status check\", function () {",
+                          "    pm.expect(jsonData.status).to.eql(pm.environment.get(\"status\"));",
+                          "});"
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "https://{{baseURL}}/public/v2/users/{{userID}}",
+                      "protocol": "https",
+                      "host": [
+                        "{{baseURL}}"
+                      ],
+                      "path": [
+                        "public",
+                        "v2",
+                        "users",
+                        "{{userID}}"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "full path - update user data",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [
+                          "var jsonData = pm.response.json();",
+                          "",
+                          "pm.test(\"Status code is 200\", function () {",
+                          "    pm.response.to.have.status(200);",
+                          "});",
+                          "",
+                          "pm.test(\"User name check\", function () {",
+                          "    pm.expect(jsonData.name).to.eql(pm.environment.get(\"modified_name\"));",
+                          "});",
+                          "",
+                          "pm.test(\"User gender check\", function () {",
+                          "    pm.expect(jsonData.gender).to.eql(pm.environment.get(\"modified_gender\"));",
+                          "});",
+                          "",
+                          "pm.test(\"User status check\", function () {",
+                          "    pm.expect(jsonData.status).to.eql(pm.environment.get(\"modified_status\"));",
+                          "});"
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "PATCH",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"name\": \"{{modified_name}}\",\n    \"gender\": \"{{modified_gender}}\",\n    \"status\": \"{{modified_status}}\"\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "https://{{baseURL}}/public/v2/users/{{userID}}",
+                      "protocol": "https",
+                      "host": [
+                        "{{baseURL}}"
+                      ],
+                      "path": [
+                        "public",
+                        "v2",
+                        "users",
+                        "{{userID}}"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "full path - get user by userID after update user data",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [
+                          "var jsonData = pm.response.json();",
+                          "",
+                          "pm.test(\"Status code is 200\", function () {",
+                          "    pm.response.to.have.status(200);",
+                          "});",
+                          "",
+                          "pm.test(\"User name check\", function () {",
+                          "    pm.expect(jsonData.name).to.eql(pm.environment.get(\"modified_name\"));",
+                          "});",
+                          "",
+                          "pm.test(\"User email check\", function () {",
+                          "    pm.expect(jsonData.email).to.eql(pm.environment.get(\"email\"));",
+                          "});",
+                          "",
+                          "pm.test(\"User gender check\", function () {",
+                          "    pm.expect(jsonData.gender).to.eql(pm.environment.get(\"modified_gender\"));",
+                          "});",
+                          "",
+                          "pm.test(\"User status check\", function () {",
+                          "    pm.expect(jsonData.status).to.eql(pm.environment.get(\"modified_status\"));",
+                          "});"
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "https://{{baseURL}}/public/v2/users/{{userID}}",
+                      "protocol": "https",
+                      "host": [
+                        "{{baseURL}}"
+                      ],
+                      "path": [
+                        "public",
+                        "v2",
+                        "users",
+                        "{{userID}}"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "full path - delete user",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [
+                          "pm.test(\"Status code is 204\", function () {",
+                          "    pm.response.to.have.status(204);",
+                          "});"
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "DELETE",
+                    "header": [],
+                    "url": {
+                      "raw": "https://{{baseURL}}/public/v2/users/{{userID}}",
+                      "protocol": "https",
+                      "host": [
+                        "{{baseURL}}"
+                      ],
+                      "path": [
+                        "public",
+                        "v2",
+                        "users",
+                        "{{userID}}"
+                      ]
+                    }
+                  },
+                  "response": []
+                }
+              ]
+            },
+            {
+              "name": "get users filtered by gender and status",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "var jsonData = pm.response.json();\n\npm.test(\"Status code is 200\", function () {\n    pm.response.to.have.status(200);\n});\n\npm.test(\"Response is an array\", function () {\n    pm.expect(jsonData).to.be.an(\"array\");\n});\n\npm.test(\"All users match gender and status filters\", function () {\n    jsonData.forEach(function (user) {\n        pm.expect(user.gender).to.eql(pm.environment.get(\"gender\"));\n        pm.expect(user.status).to.eql(pm.environment.get(\"status\"));\n    });\n});"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "https://{{baseURL}}/public/v2/users?gender=male&status=active",
+                  "protocol": "https",
+                  "host": [
+                    "{{baseURL}}"
+                  ],
+                  "path": [
+                    "public",
+                    "v2",
+                    "users"
+                  ],
+                  "query": [
+                    {
+                      "key": "gender",
+                      "value": "male"
+                    },
+                    {
+                      "key": "status",
+                      "value": "active"
+                    }
+                  ]
+                },
+                "description": "Generated from cURL: curl --request GET --url 'https://{{baseURL}}/public/v2/users?gender={{gender}}&status={{status}}'"
+              },
+              "response": []
+            },
+            {
+              "name": "get users with pagination",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "https://{{baseURL}}/public/v2/users",
+                  "protocol": "https",
+                  "host": [
+                    "{{baseURL}}"
+                  ],
+                  "path": [
+                    "public",
+                    "v2",
+                    "users"
+                  ]
+                },
+                "description": "Generated from cURL: curl --request GET --url 'https://{{baseURL}}/public/v2/users?page=1&per_page=5'"
+              },
+              "response": []
+            }
+          ],
+          "auth": {
+            "type": "bearer",
+            "bearer": [
+              {
+                "key": "token",
+                "value": "{{token}}",
+                "type": "string"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "let name = \"TestName\";\nlet email = \"Email123@test.test.pl\";\nlet gender = \"male\";\nlet status = \"active\";\n\nlet modified_name = \"name_modified\";\nlet modified_gender = \"female\";\nlet modified_status = \"inactive\";\n\npm.environment.set(\"name\", name);\npm.environment.set(\"email\", email);\npm.environment.set(\"gender\", gender);\npm.environment.set(\"status\", status);\n\npm.environment.set(\"modified_name\", modified_name);\npm.environment.set(\"modified_gender\", modified_gender);\npm.environment.set(\"modified_status\", modified_status);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "negative flow",
+          "item": [
+            {
+              "name": "incorrect user data",
+              "item": [
+                {
+                  "name": "create user without email",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [
+                          "var jsonData = pm.response.json();",
+                          "",
+                          "pm.environment.set(\"userID\", jsonData.id);",
+                          "",
+                          "pm.test(\"Status code is 201\", function () {",
+                          "    pm.response.to.have.status(201);",
+                          "});",
+                          "",
+                          "pm.test(\"User name check\", function () {",
+                          "    pm.expect(jsonData.name).to.eql(\"rhoTest1234\");",
+                          "});",
+                          "",
+                          "pm.test(\"User email check\", function () {",
+                          "    pm.expect(jsonData.email).to.eql(\"rhoTest1234NEW123@test.pl\");",
+                          "});",
+                          "",
+                          "pm.test(\"User gender check\", function () {",
+                          "    pm.expect(jsonData.gender).to.eql(\"male\");",
+                          "});",
+                          "",
+                          "pm.test(\"User status check\", function () {",
+                          "    pm.expect(jsonData.status).to.eql(\"active\");",
+                          "});"
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    },
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [
+                          ""
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"name\": \"rhoTest1234\",\n    \"email\": \"\",\n    \"gender\": \"male\",\n    \"status\": \"active\"\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "https://{{baseURL}}/public/v2/users",
+                      "protocol": "https",
+                      "host": [
+                        "{{baseURL}}"
+                      ],
+                      "path": [
+                        "public",
+                        "v2",
+                        "users"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "create user without email property",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [
+                          "pm.test(\"Status code is 422\", function () {",
+                          "    pm.response.to.have.status(422);",
+                          "});",
+                          "",
+                          "pm.test(\"Response body contains email validation error\", function () {",
+                          "    const jsonData = pm.response.json();",
+                          "    pm.expect(jsonData).to.be.an(\"array\");",
+                          "    pm.expect(jsonData[0].field).to.eql(\"email\");",
+                          "    pm.expect(jsonData[0].message).to.eql(\"can't be blank\");",
+                          "});"
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    },
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [
+                          ""
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"name\": \"rhoTest1234\",\n    \"gender\": \"male\",\n    \"status\": \"active\"\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "https://{{baseURL}}/public/v2/users",
+                      "protocol": "https",
+                      "host": [
+                        "{{baseURL}}"
+                      ],
+                      "path": [
+                        "public",
+                        "v2",
+                        "users"
+                      ]
+                    }
+                  },
+                  "response": []
+                }
+              ],
+              "auth": {
+                "type": "bearer",
+                "bearer": [
+                  {
+                    "key": "token",
+                    "value": "",
+                    "type": "string"
+                  }
+                ]
+              },
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {},
+                    "exec": [
+                      ""
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {},
+                    "exec": [
+                      ""
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "authentication issues",
+              "item": [
+                {
+                  "name": "create user with empty bearer token",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [
+                          "var jsonData = pm.response.json();",
+                          "",
+                          "pm.environment.set(\"userID\", jsonData.id);",
+                          "",
+                          "pm.test(\"Status code is 201\", function () {",
+                          "    pm.response.to.have.status(201);",
+                          "});",
+                          "",
+                          "pm.test(\"User name check\", function () {",
+                          "    pm.expect(jsonData.name).to.eql(\"rhoTest1234\");",
+                          "});",
+                          "",
+                          "pm.test(\"User email check\", function () {",
+                          "    pm.expect(jsonData.email).to.eql(\"rhoTest1234NEW123@test.pl\");",
+                          "});",
+                          "",
+                          "pm.test(\"User gender check\", function () {",
+                          "    pm.expect(jsonData.gender).to.eql(\"male\");",
+                          "});",
+                          "",
+                          "pm.test(\"User status check\", function () {",
+                          "    pm.expect(jsonData.status).to.eql(\"active\");",
+                          "});"
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    },
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [
+                          ""
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "auth": {
+                      "type": "bearer",
+                      "bearer": [
+                        {
+                          "key": "token",
+                          "value": "",
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"name\": \"rhoTest1234\",\n    \"email\": \"\",\n    \"gender\": \"male\",\n    \"status\": \"active\"\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "https://{{baseURL}}/public/v2/users",
+                      "protocol": "https",
+                      "host": [
+                        "{{baseURL}}"
+                      ],
+                      "path": [
+                        "public",
+                        "v2",
+                        "users"
+                      ]
+                    }
+                  },
+                  "response": []
+                }
+              ]
+            },
+            {
+              "name": "invalid request method",
+              "item": [
+                {
+                  "name": "post method on get users endpoint",
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "url": {
+                      "raw": "https://{{baseURL}}/public/v2/users",
+                      "protocol": "https",
+                      "host": [
+                        "{{baseURL}}"
+                      ],
+                      "path": [
+                        "public",
+                        "v2",
+                        "users"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "put method on get users endpoint Copy",
+                  "request": {
+                    "method": "PUT",
+                    "header": [],
+                    "url": {
+                      "raw": "https://{{baseURL}}/public/v2/users",
+                      "protocol": "https",
+                      "host": [
+                        "{{baseURL}}"
+                      ],
+                      "path": [
+                        "public",
+                        "v2",
+                        "users"
+                      ]
+                    }
+                  },
+                  "response": []
+                }
+              ]
+            },
+            {
+              "name": "create user with invalid gender",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 422\", function () {",
+                      "    pm.response.to.have.status(422);",
+                      "});",
+                      "",
+                      "pm.test(\"Response contains a gender field validation error\", function () {",
+                      "    const body = pm.response.json();",
+                      "    pm.expect(body).to.be.an(\"array\");",
+                      "    pm.expect(body.some(error => error.field === \"gender\" && typeof error.message === \"string\" && error.message.length > 0)).to.be.true;",
+                      "});"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"name\":\"{{name}}\",\"email\":\"invalid-gender-{{$guid}}@example.com\",\"gender\":\"invalid\",\"status\":\"{{status}}\"}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseURL}}/public/v2/users",
+                  "host": [
+                    "{{baseURL}}"
+                  ],
+                  "path": [
+                    "public",
+                    "v2",
+                    "users"
+                  ]
+                },
+                "description": "Generated from cURL: curl --request POST '{{baseURL}}/public/v2/users' --header 'Content-Type: application/json' --data-raw '{\"name\":\"{{name}}\",\"email\":\"invalid-gender-{{$guid}}@example.com\",\"gender\":\"invalid\",\"status\":\"{{status}}\"}'"
+              },
+              "response": []
+            },
+            {
+              "name": "get non-existing user",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseURL}}/public/v2/users/999999999",
+                  "host": [
+                    "{{baseURL}}"
+                  ],
+                  "path": [
+                    "public",
+                    "v2",
+                    "users",
+                    "999999999"
+                  ]
+                },
+                "description": "Generated from cURL: curl --request GET '{{baseURL}}/public/v2/users/999999999'"
+              },
+              "response": []
+            }
+          ]
+        }
+      ],
+      "auth": {
+        "type": "bearer",
+        "bearer": [
+          {
+            "key": "token",
+            "value": "{{token}}",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "/public/v2/posts",
+      "item": [
+        {
+          "name": "positive flow",
+          "item": [
+            {
+              "name": "GET posts with pagination — page size 5",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 200\", function () {",
+                      "    pm.response.to.have.status(200);",
+                      "});",
+                      "",
+                      "pm.test(\"Response is an array\", function () {",
+                      "    const json = pm.response.json();",
+                      "    pm.expect(json).to.be.an(\"array\");",
+                      "});",
+                      "",
+                      "pm.test(\"Response contains at most 5 posts\", function () {",
+                      "    const json = pm.response.json();",
+                      "    pm.expect(json.length).to.be.at.most(5);",
+                      "});"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "https://{{baseURL}}/public/v2/posts?page=1&per_page=5",
+                  "protocol": "https",
+                  "host": [
+                    "{{baseURL}}"
+                  ],
+                  "path": [
+                    "public",
+                    "v2",
+                    "posts"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "per_page",
+                      "value": "5"
+                    }
+                  ]
+                },
+                "description": "Generated from cURL: curl --request GET --url 'https://{{baseURL}}/public/v2/posts?page=1&per_page=5'"
+              },
+              "response": []
+            },
+            {
+              "name": "GET list posts — returns posts list",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 200\", function () {",
+                      "    pm.response.to.have.status(200);",
+                      "});",
+                      "",
+                      "pm.test(\"Response is an array\", function () {",
+                      "    const json = pm.response.json();",
+                      "    pm.expect(json).to.be.an(\"array\");",
+                      "});",
+                      "",
+                      "pm.test(\"First post has id, user_id, title, and body when list is not empty\", function () {",
+                      "    const json = pm.response.json();",
+                      "    if (json.length > 0) {",
+                      "        pm.expect(json[0]).to.have.all.keys(\"id\", \"user_id\", \"title\", \"body\");",
+                      "    }",
+                      "});"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "https://{{baseURL}}/public/v2/posts",
+                  "protocol": "https",
+                  "host": [
+                    "{{baseURL}}"
+                  ],
+                  "path": [
+                    "public",
+                    "v2",
+                    "posts"
+                  ]
+                },
+                "description": "Generated from cURL: curl --request GET --url 'https://{{baseURL}}/public/v2/posts'"
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "negative flow",
+          "item": [
+            {
+              "name": "CREATE post without title — returns validation error",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 422\", function () {",
+                      "    pm.response.to.have.status(422);",
+                      "});",
+                      "",
+                      "pm.test(\"Response contains a validation error for title\", function () {",
+                      "    const json = pm.response.json();",
+                      "    pm.expect(json).to.be.an(\"array\");",
+                      "    pm.expect(json.some(function (error) {",
+                      "        return error && error.field === \"title\";",
+                      "    })).to.be.true;",
+                      "});"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "disabled": false
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"user_id\": {{userID}}, \"body\": \"Post body without title\"}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "https://{{baseURL}}/public/v2/posts",
+                  "protocol": "https",
+                  "host": [
+                    "{{baseURL}}"
+                  ],
+                  "path": [
+                    "public",
+                    "v2",
+                    "posts"
+                  ]
+                },
+                "description": "Generated from cURL: curl --request POST --url 'https://{{baseURL}}/public/v2/posts' --header 'Content-Type: application/json' --data-raw '{\"user_id\": {{userID}}, \"body\": \"Post body without title\"}'"
+              },
+              "response": []
+            },
+            {
+              "name": "GET non-existing post — returns 404",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 404\", function () {",
+                      "    pm.response.to.have.status(404);",
+                      "});",
+                      "",
+                      "pm.test(\"JSON body contains message\", function () {",
+                      "    const json = pm.response.json();",
+                      "    pm.expect(json).to.have.property(\"message\");",
+                      "});"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "https://{{baseURL}}/public/v2/posts/999999999",
+                  "protocol": "https",
+                  "host": [
+                    "{{baseURL}}"
+                  ],
+                  "path": [
+                    "public",
+                    "v2",
+                    "posts",
+                    "999999999"
+                  ]
+                },
+                "description": "Generated from cURL: curl --request GET --url 'https://{{baseURL}}/public/v2/posts/999999999'"
+              },
+              "response": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "/public/v2/comments",
+      "item": [
+        {
+          "name": "positive flow",
+          "item": [
+            {
+              "name": "GET list comments — returns comments list",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 200\", function () {",
+                      "    pm.response.to.have.status(200);",
+                      "});",
+                      "",
+                      "pm.test(\"Response is a JSON array\", function () {",
+                      "    const json = pm.response.json();",
+                      "    pm.expect(json).to.be.an(\"array\");",
+                      "});",
+                      "",
+                      "pm.test(\"First comment has basic fields when list is not empty\", function () {",
+                      "    const json = pm.response.json();",
+                      "    if (json.length > 0) {",
+                      "        pm.expect(json[0]).to.include.all.keys(\"id\", \"post_id\", \"name\", \"email\", \"body\");",
+                      "    }",
+                      "});"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "https://{{baseURL}}/public/v2/comments",
+                  "protocol": "https",
+                  "host": [
+                    "{{baseURL}}"
+                  ],
+                  "path": [
+                    "public",
+                    "v2",
+                    "comments"
+                  ]
+                },
+                "description": "Generated from cURL: curl --request GET --url 'https://{{baseURL}}/public/v2/comments' --no-buffer"
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "negative flow",
+          "item": [
+            {
+              "name": "GET non-existing comment — returns 404",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 404\", function () {",
+                      "    pm.response.to.have.status(404);",
+                      "});",
+                      "",
+                      "pm.test(\"Response is a JSON object containing message\", function () {",
+                      "    const json = pm.response.json();",
+                      "    pm.expect(json).to.be.an(\"object\");",
+                      "    pm.expect(json).to.have.property(\"message\");",
+                      "});"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "https://{{baseURL}}/public/v2/comments/999999999",
+                  "protocol": "https",
+                  "host": [
+                    "{{baseURL}}"
+                  ],
+                  "path": [
+                    "public",
+                    "v2",
+                    "comments",
+                    "999999999"
+                  ]
+                },
+                "description": "Generated from cURL: curl --request GET --url 'https://{{baseURL}}/public/v2/comments/999999999' --no-buffer"
+              },
+              "response": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "/public/v2/todos",
+      "item": [
+        {
+          "name": "positive flow",
+          "item": [
+            {
+              "name": "GET list todos — returns todos list",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 200\", function () {",
+                      "    pm.response.to.have.status(200);",
+                      "});",
+                      "",
+                      "pm.test(\"Response is a JSON array\", function () {",
+                      "    const json = pm.response.json();",
+                      "    pm.expect(json).to.be.an(\"array\");",
+                      "});",
+                      "",
+                      "pm.test(\"First todo has basic fields when list is not empty\", function () {",
+                      "    const json = pm.response.json();",
+                      "    if (json.length > 0) {",
+                      "        pm.expect(json[0]).to.include.all.keys(\"id\", \"user_id\", \"title\", \"due_on\", \"status\");",
+                      "    }",
+                      "});"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "https://{{baseURL}}/public/v2/todos",
+                  "protocol": "https",
+                  "host": [
+                    "{{baseURL}}"
+                  ],
+                  "path": [
+                    "public",
+                    "v2",
+                    "todos"
+                  ]
+                },
+                "description": "Generated from cURL: curl --request GET --url 'https://{{baseURL}}/public/v2/todos' --no-buffer"
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "negative flow",
+          "item": [
+            {
+              "name": "GET non-existing todo — returns 404",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 404\", function () {",
+                      "    pm.response.to.have.status(404);",
+                      "});",
+                      "",
+                      "pm.test(\"Response is a JSON object containing message\", function () {",
+                      "    const json = pm.response.json();",
+                      "    pm.expect(json).to.be.an(\"object\");",
+                      "    pm.expect(json).to.have.property(\"message\");",
+                      "});"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "https://{{baseURL}}/public/v2/todos/999999999",
+                  "protocol": "https",
+                  "host": [
+                    "{{baseURL}}"
+                  ],
+                  "path": [
+                    "public",
+                    "v2",
+                    "todos",
+                    "999999999"
+                  ]
+                },
+                "description": "Generated from cURL: curl --request GET --url 'https://{{baseURL}}/public/v2/todos/999999999' --no-buffer"
+              },
+              "response": []
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseurl",
+      "value": ""
+    },
+    {
+      "key": "token",
+      "value": ""
+    }
+  ]
+}
