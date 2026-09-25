@@ -3,3 +3,6 @@ reports/
 .env
 .env.*
 postman/*.local.json
+node_modules/
+package.json.bak
+package-lock.json.bak

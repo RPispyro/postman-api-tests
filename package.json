@@ -1,0 +1,22 @@
+{
+  "name": "postman-api-tests",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RPispyro/postman-api-tests.git"
+  },
+  "keywords": [],
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/RPispyro/postman-api-tests/issues"
+  },
+  "homepage": "https://github.com/RPispyro/postman-api-tests#readme",
+  "devDependencies": {
+    "newman": "6.2.2"
+  }
+}
